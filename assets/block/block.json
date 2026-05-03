@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "kursflow/kursliste",
+    "version": "0.1.0",
+    "title": "kursflow Kursliste",
+    "category": "widgets",
+    "icon": "calendar-alt",
+    "description": "Displays the course list from your kursflow tenant.",
+    "keywords": ["courses", "kurs", "kursflow"],
+    "supports": {
+        "html": false,
+        "align": false
+    },
+    "textdomain": "kursflow",
+    "editorScript": "kursflow-block-editor",
+    "editorStyle": "kursflow-block-editor-style",
+    "style": "kursflow-block-style",
+    "attributes": {
+        "branche": {
+            "type": "string",
+            "default": ""
+        },
+        "limit": {
+            "type": "number",
+            "default": 0
+        },
+        "layout": {
+            "type": "string",
+            "default": "liste",
+            "enum": ["liste", "grid", "kompakt"]
+        }
+    },
+    "example": {
+        "attributes": {
+            "branche": "",
+            "limit": 0,
+            "layout": "liste"
+        }
+    }
+}
