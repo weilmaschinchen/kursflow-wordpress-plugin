@@ -3,7 +3,7 @@
  * Plugin Name: kursflow Kursliste
  * Plugin URI: https://kursflow.de
  * Description: Bindet die Kursliste von kursflow.de ein – als Gutenberg-Block, Shortcode oder automatisch im Footer.
- * Version: 0.1.0
+ * Version: 0.1.1
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: weilmaschinchen
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('KURSFLOW_VERSION', '0.1.0');
+define('KURSFLOW_VERSION', '0.1.1');
 define('KURSFLOW_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('KURSFLOW_PLUGIN_URL', plugin_dir_url(__FILE__));
 

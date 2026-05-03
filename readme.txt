@@ -3,7 +3,7 @@ Contributors: weilmaschinchen
 Tags: courses, kursflow, booking, widgets, gutenberg
 Requires at least: 6.0
 Tested up to: 6.5
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -70,10 +70,18 @@ No. Bookings are still processed on your tenant’s kursflow.de subdomain for a 
 
 == Changelog ==
 
+= 0.1.1 =
+* Add Gutenberg block editor script (editor.js) — InspectorControls für Branche, Limit, Layout
+* Add block asset manifest (block.asset.php) mit wp-blocks/wp-block-editor/wp-components/wp-element/wp-i18n Dependencies
+* Add editor.css + frontend.css für Block-Styling
+
 = 0.1.0 =
 * Initial release.
 
 == Upgrade Notice ==
+
+= 0.1.1 =
+Editor-Block ist jetzt vollständig im Gutenberg-Editor verwendbar (vorher nur Settings + Shortcode).
 
 = 0.1.0 =
 Initial release.
