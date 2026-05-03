@@ -1,0 +1,17 @@
+.wp-block-kursflow-kursliste {
+	margin: 1.25em 0;
+}
+
+.wp-block-kursflow-kursliste #kursflow-widget {
+	min-height: 80px;
+}
+
+.wp-block-kursflow-kursliste.is-layout-grid #kursflow-widget {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: 16px;
+}
+
+.wp-block-kursflow-kursliste.is-layout-kompakt #kursflow-widget {
+	font-size: 0.9em;
+}
