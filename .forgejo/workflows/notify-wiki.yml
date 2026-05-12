@@ -16,8 +16,8 @@ jobs:
             exit 0
           fi
           curl -sS -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.WIKI_DISPATCH_TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/weilmaschinchen/kursflow-docs/dispatches \
-            -d "{\"event_type\":\"source-update\",\"client_payload\":{\"source_repo\":\"${{ github.repository }}\",\"sha\":\"${{ github.sha }}\"}}"
+            -H "Authorization: token ${{ secrets.WIKI_DISPATCH_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            "https://forgejo.kurvenschule.cloud/api/v1/repos/andre/kursflow-docs/actions/workflows/build-and-deploy.yml/dispatches" \
+            -d "{\"ref\":\"main\"}"
+
