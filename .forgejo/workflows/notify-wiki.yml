@@ -1,0 +1,23 @@
+name: Notify Wiki on push
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Trigger kursflow-docs build
+        run: |
+          if [ -z "${{ secrets.WIKI_DISPATCH_TOKEN }}" ]; then
+            echo "::warning::WIKI_DISPATCH_TOKEN nicht gesetzt — skip"
+            exit 0
+          fi
+          curl -sS -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.WIKI_DISPATCH_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/weilmaschinchen/kursflow-docs/dispatches \
+            -d "{\"event_type\":\"source-update\",\"client_payload\":{\"source_repo\":\"${{ github.repository }}\",\"sha\":\"${{ github.sha }}\"}}"
