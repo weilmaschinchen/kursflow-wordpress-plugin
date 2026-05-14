@@ -32,7 +32,7 @@ class Kursflow_Cron_Sync {
             return;
         }
 
-        $response = Kursflow_API_Client::get($slug, '/api/v1/events');
+        $response = Kursflow_API_Client::get($slug, '/api/public/events');
         if (is_wp_error($response)) {
             error_log('kursflow sync error: ' . $response->get_error_message());
             return;
@@ -69,7 +69,7 @@ class Kursflow_Cron_Sync {
             wp_die(esc_html__('Tenant slug is not configured.', 'kursflow'));
         }
 
-        $response = Kursflow_API_Client::get($slug, '/api/v1/events');
+        $response = Kursflow_API_Client::get($slug, '/api/public/events');
         if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
             $message = __('Sync failed. Please check your settings.', 'kursflow');
         } else {

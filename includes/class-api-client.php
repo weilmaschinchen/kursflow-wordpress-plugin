@@ -77,7 +77,7 @@ class Kursflow_API_Client {
      * @return array{success: bool, code: int, message: string}
      */
     public static function test_connection($slug) {
-        $response = self::get($slug, '/api/v1/health');
+        $response = self::get($slug, '/api/public/events');
 
         if (is_wp_error($response)) {
             return [
@@ -91,10 +91,17 @@ class Kursflow_API_Client {
         $body = wp_remote_retrieve_body($response);
 
         if ($code === 200) {
+            $data  = json_decode($body, true);
+            $count = isset($data['data']) && is_array($data['data']) ? count($data['data']) : '?';
             return [
                 'success' => true,
                 'code'    => $code,
-                'message' => __('Connection successful!', 'kursflow'),
+                'message' => sprintf(
+                    /* translators: %1$d: number of courses, %2$s: tenant URL */
+                    __('Verbunden — %1$d Kurs(e) gefunden (%2$s.kursflow.de)', 'kursflow'),
+                    $count,
+                    esc_html($slug)
+                ),
             ];
         }
 
