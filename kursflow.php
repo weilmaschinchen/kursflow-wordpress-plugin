@@ -80,9 +80,9 @@ register_activation_hook(__FILE__, function () {
 });
 
 /**
- * Uninstall hook.
+ * Uninstall hook — must use a named function, closures cannot be serialized by WP.
  */
-register_uninstall_hook(__FILE__, function () {
+function kursflow_uninstall() {
     delete_option('kursflow_api_key');
     delete_option('kursflow_tenant_slug');
     delete_option('kursflow_cache_ttl');
@@ -90,9 +90,9 @@ register_uninstall_hook(__FILE__, function () {
     delete_option('kursflow_branche_theme');
     delete_option('kursflow_auto_embed');
     delete_option('kursflow_use_cache');
-
     wp_clear_scheduled_hook('kursflow_sync_kurse');
-});
+}
+register_uninstall_hook(__FILE__, 'kursflow_uninstall');
 
 /**
  * Deactivation hook (cleanup cron).
