@@ -34,13 +34,11 @@ class Kursflow_API_Client {
         $api_key = get_option('kursflow_api_key', '');
         $url = self::base_url($slug) . $endpoint;
 
-        $defaults = [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $api_key,
-                'Accept'        => 'application/json',
-            ],
-            'timeout' => 15,
-        ];
+        $headers = ['Accept' => 'application/json'];
+        if (!empty($api_key)) {
+            $headers['Authorization'] = 'Bearer ' . $api_key;
+        }
+        $defaults = ['headers' => $headers, 'timeout' => 15];
 
         $args = wp_parse_args($args, $defaults);
         return wp_remote_get($url, $args);
@@ -58,14 +56,11 @@ class Kursflow_API_Client {
         $api_key = get_option('kursflow_api_key', '');
         $url = self::base_url($slug) . $endpoint;
 
-        $args = [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $api_key,
-                'Content-Type'  => 'application/json',
-            ],
-            'body'    => wp_json_encode($body),
-            'timeout' => 15,
-        ];
+        $headers = ['Content-Type' => 'application/json'];
+        if (!empty($api_key)) {
+            $headers['Authorization'] = 'Bearer ' . $api_key;
+        }
+        $args = ['headers' => $headers, 'body' => wp_json_encode($body), 'timeout' => 15];
 
         return wp_remote_post($url, $args);
     }
