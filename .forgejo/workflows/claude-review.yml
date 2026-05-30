@@ -1,0 +1,48 @@
+name: Claude Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths-ignore: ['**.md', 'docs/**', '.forgejo/ISSUE_TEMPLATE/**', 'LICENSE']
+  push:
+    branches: [main]
+    paths-ignore: ['**.md', 'docs/**', '.forgejo/ISSUE_TEMPLATE/**', 'LICENSE']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ !contains(github.event.head_commit.message, '[skip review]') && !contains(github.event.pull_request.title, '[skip review]') }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Anthropic SDK
+        run: npm install --no-save --no-audit --no-fund '@anthropic-ai/sdk@^0.90.0'
+
+      - name: Run Claude Review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GITEA_TOKEN: ${{ github.token }}
+          FORGEJO_URL: ${{ vars.FORGEJO_URL || 'https://forgejo.kurvenschule.cloud' }}
+          EVENT_NAME: ${{ github.event_name }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ] && [ -z "$DEEPSEEK_API_KEY" ]; then
+            echo "::warning::Kein LLM-Key — skip"
+            exit 0
+          fi
+          node .forgejo/scripts/claude-review.mjs
